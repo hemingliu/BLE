@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">BLE</string>
+    <string name="app_name">AVF</string>
     <string name="title_activity_service">ServiceActivity</string>
 </resources>

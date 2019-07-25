@@ -92,7 +92,29 @@ public class NotifyActivity extends AppCompatActivity {
 
                             @Override
                             public void onCharacteristicChanged(byte[] data) {
-                                for(byte b:data){
+                                int i = 0;
+                                for(i=0;i<data.length;i=i+2){
+                                    short s = 0;
+                                    s = (short)(s ^ data[i]);  //将b1赋给s的低8位
+                                    s = (short)(s << 8);  //s的低8位移动到高8位
+                                    s = (short)(s ^ data[i+1]); //在b2赋给s的低8位
+
+                                    int value = s;
+                                    dataTen.add(value);
+                                    List<Entry> entries = new ArrayList<>();
+                                    int b = 1;
+                                    for(Integer d:dataTen){
+                                        entries.add(new Entry(b,d));
+                                        b++;
+                                    }
+                                    LineDataSet dataSet = new LineDataSet(entries,"震颤指数");
+                                    LineData lineData = new LineData(dataSet);
+                                    mLineChar.setData(lineData);
+                                    mLineChar.setVisibleXRangeMaximum(20);
+                                    mLineChar.moveViewToX(xAxis.getAxisMaximum()-20);
+                                    mLineChar.notifyDataSetChanged();
+                                }
+                                /*for(byte b:data){
                                     int value = (b & 0X0FF);
                                     Log.d("BYTE",String.valueOf(b));
                                     dataTen.add(value);
@@ -102,13 +124,13 @@ public class NotifyActivity extends AppCompatActivity {
                                         entries.add(new Entry(i,d));
                                         i++;
                                     }
-                                    LineDataSet dataSet = new LineDataSet(entries,"test");
+                                    LineDataSet dataSet = new LineDataSet(entries,"震颤指数");
                                     LineData lineData = new LineData(dataSet);
                                     mLineChar.setData(lineData);
                                     mLineChar.setVisibleXRangeMaximum(20);
                                     mLineChar.moveViewToX(xAxis.getAxisMaximum()-20);
                                     mLineChar.notifyDataSetChanged();
-                                }
+                                }*/
                             }
                         }
                     );
