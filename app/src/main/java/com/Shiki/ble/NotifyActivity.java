@@ -95,18 +95,17 @@ public class NotifyActivity extends AppCompatActivity {
                             public void onCharacteristicChanged(byte[] data) {
                                 int i = 0;
                                 for(i=0;i<data.length;i=i+2){
-                                    int s = 0;
-                                    s = (s ^ data[i]);  //将b1赋给s的低8位
-                                    s = (s << 8);  //s的低8位移动到高8位
-                                    s = (s ^ data[i+1]); //在b2赋给s的低8位
+                                    short s = 0;
+                                    s = (short)(s ^ data[i]);  //将b1赋给s的低8位
+                                    s = (short)(s << 8);  //s的低8位移动到高8位
+                                    s = (short)(s ^ data[i+1]); //在b2赋给s的低8位
 
                                     int value = 0;
-                                    value = s;
-                                    /*if(s < 0){
-                                        value = 65535+1+s;
+                                    if(s < 0){
+                                        value = -s;
                                     }else{
                                         value = new BigDecimal(s).intValue();
-                                    }*/
+                                    }
 
                                     dataTen.add(value);
                                     List<Entry> entries = new ArrayList<>();
